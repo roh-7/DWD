@@ -4,20 +4,11 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
-from sklearn.metrics import accuracy_score
-from sklearn import tree
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report
+from sklearn.ensemble import RandomForestClassifier
 
-processed_data = pd.read_csv(
-	'/Users/rohitramaswamy/Desktop/BSE/Sem 1/DealingWithData/git/DWD/Data/bank/bank-full.csv', sep=';')
+processed_data = pd.read_csv('/Users/rohitramaswamy/Desktop/BSE/Sem 1/DealingWithData/git/DWD/Data/bank/bank-full.csv', sep=';')
 
 processed_encoding = processed_data
-
-# print(processed_data.info())
-
-# prints unique values in job category
-# print(processed_data['job'].unique().tolist())
 
 # prints count of unique values
 # print(processed_data["job"].value_counts())
@@ -63,35 +54,34 @@ cleanup_poutcome = {"poutcome": {"success":1, "failure":2, "other":3, "unknown":
 processed_encoding.replace(cleanup_poutcome, inplace=True)
 # print(processed_encoding[['poutcome']])
 
-
-
 # print("data length :: ", len(processed_data))
 # print("no null data :: ", processed_data.isnull().sum())
 # print(processed_data.head())
-#
+
 # processed_data.info()
 
-
-# feature_col_x = ['age', 'job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month', 'day_of_week',
-#                  'duration', 'campaign', 'pdays', 'previous', 'poutcome', 'emp.var.rate', 'cons.price.idx',
-#                  'cons.conf.idx', 'euribor3m', 'nr.employed']
-# feature_col_y = ['y']
-
-X = processed_data.iloc[1:, 0:15]
-Y = processed_data.iloc[1:, -1]
-
+X = processed_encoding.iloc[1:, 0:15]
+Y = processed_encoding.iloc[1:, -1]
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=1)
 
-cal_entropy = DecisionTreeClassifier(criterion="entropy", random_state=1, max_depth=3, min_samples_leaf=5)
-cal_entropy.fit(X_train, Y_train)
+def decision_tree():
+    cal_entropy = DecisionTreeClassifier(criterion="entropy", random_state=1, max_depth=3, min_samples_leaf=5)
+    cal_entropy.fit(X_train, Y_train)
+    Y_pred = cal_entropy.predict(X_test)
+    print('Decision tree accuracy: ', metrics.accuracy_score(Y_test, Y_pred))
+    #  PRoc data: 0.8897736488977365
 
-Y_pred = cal_entropy.predict(X_test)
+# decision_tree()
 
-# results = confusion_matrix(X_test, Y)
-# print('Confusion Matrix :')
-# print(results)
-print('Accuracy Score :' ,metrics.accuracy_score(Y_test, Y_pred))
-# print('Report : ')
-# print(classification_report(Y_train, X_train))
+def random_forest():
+    # Create the model with 100 trees
+    random_forest_model = RandomForestClassifier(n_estimators=100, bootstrap=True, max_features='sqrt')
+    # Fit on training data
+    random_forest_model.fit(X_train, Y_train)
+    Y_pred = random_forest_model.predict(X_test)
+    print("Random forest accuracy: ",metrics.accuracy_score(Y_test,Y_pred))
+    # 0.9023077490230775
 
 
+
+random_forest()
