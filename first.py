@@ -19,38 +19,47 @@ processed_encoding = processed_data
 
 # prints count of unique values
 # print(processed_data["job"].value_counts())
-
 cleanup_jobs = {"job": {"blue-collar": 1, "management": 2, "technician": 3, "admin.": 4, "services": 5, "retired": 6,
                         "self-employed": 7, "entrepreneur": 8, "unemployed": 9, "housemaid": 10, "student": 11,
                         "unknown": 12}}
-
 processed_encoding.replace(cleanup_jobs, inplace=True)
 # print(processed_jobs.head())
 
 # print(processed_encoding['marital'].value_counts())
-
 cleanup_marital = {"marital": {"married": 1, "single": 2, "divorced": 3}}
 processed_encoding.replace(cleanup_marital, inplace=True)
 # print(processed_encoding.head())
 
 # print(processed_encoding["education"].value_counts())
-cleanup_education = {"education": {"primary": 1, "secondary": 2, "tertiary":3 ,"unknown": 4}}
-processed_encoding.replace(cleanup_education,inplace=True)
+cleanup_education = {"education": {"primary": 1, "secondary": 2, "tertiary": 3, "unknown": 4}}
+processed_encoding.replace(cleanup_education, inplace=True)
 # print(processed_encoding)
 
-#for default, housing, loan
-print(processed_encoding["loan"].value_counts())
+# for default, housing, loan
+# print(processed_encoding["loan"].value_counts())
 cleanup_boolean = {"default": {"yes": 1, "no": 0},
-					"housing": {"yes": 1, "no": 0},
-					"loan": {"yes": 1, "no": 0}
-                    }
-processed_encoding.replace(cleanup_boolean,inplace=True)
+                   "housing": {"yes": 1, "no": 0},
+                   "loan": {"yes": 1, "no": 0},
+                   "y": {"yes":1, "no":0}
+                   }
+processed_encoding.replace(cleanup_boolean, inplace=True)
 # print(processed_encoding.values[1:100, 3:9]
 
+# print(processed_encoding["contact"].value_counts())
+cleanup_contact = {"contact": {"cellular": 1, "telephone": 2, "unknown": 3}}
+processed_encoding.replace(cleanup_contact, inplace=True)
+# print(processed_encoding[['age']])
 
+# print(processed_encoding["month"].value_counts())
+cleanup_month = {"month": {"jan": 1, "feb":2, "mar":3, "apr":4, "may":5, "jun": 6, "jul":7, "aug":8, "sep":9,
+                           "oct":10, "nov":11, "dec":12}}
+processed_encoding.replace(cleanup_month, inplace=True)
+# print(processed_encoding[['month']])
 
-
-
+# print(processed_encoding["poutcome"].value_counts())
+cleanup_poutcome = {"poutcome": {"success":1, "failure":2, "other":3, "unknown":4}}
+processed_encoding.replace(cleanup_poutcome, inplace=True)
+print(processed_encoding[['poutcome']])
 
 
 
