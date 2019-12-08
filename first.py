@@ -10,22 +10,31 @@ from sklearn import tree
 processed_data = pd.read_csv(
 	'/Users/rohitramaswamy/Desktop/BSE/Sem 1/DealingWithData/git/DWD/Data/bank/bank-full.csv', sep=';')
 
-processed_jobs = processed_data
+processed_encoding = processed_data
 
-print(processed_data.info())
+# print(processed_data.info())
 
 # prints unique values in job category
-print(processed_data['job'].unique().tolist())
+# print(processed_data['job'].unique().tolist())
 
 # prints count of unique values
-print(processed_data["job"].value_counts())
+# print(processed_data["job"].value_counts())
 
 cleanup_jobs = {"job": {"blue-collar": 1, "management": 2, "technician": 3, "admin.": 4, "services": 5, "retired": 6,
                         "self-employed": 7, "entrepreneur": 8, "unemployed": 9, "housemaid": 10, "student": 11,
                         "unknown": 12}}
 
-processed_jobs.replace(cleanup_jobs, inplace=True)
-print(processed_jobs.head())
+processed_encoding.replace(cleanup_jobs, inplace=True)
+# print(processed_jobs.head())
+
+print(processed_encoding['marital'].value_counts())
+
+cleanup_marital = {"marital": {"married": 1, "single": 2, "divorced": 3}}
+processed_encoding.replace(cleanup_marital, inplace=True)
+print(processed_encoding.head())
+
+
+
 
 
 
