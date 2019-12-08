@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import GaussianNB
 
 processed_data = pd.read_csv('/Users/rohitramaswamy/Desktop/BSE/Sem 1/DealingWithData/git/DWD/Data/bank/bank-full.csv', sep=';')
 
@@ -71,8 +72,6 @@ def decision_tree():
     print('Decision tree accuracy: ', metrics.accuracy_score(Y_test, Y_pred))
     #  PRoc data: 0.8897736488977365
 
-# decision_tree()
-
 def random_forest():
     # Create the model with 100 trees
     random_forest_model = RandomForestClassifier(n_estimators=100, bootstrap=True, max_features='sqrt')
@@ -82,6 +81,14 @@ def random_forest():
     print("Random forest accuracy: ",metrics.accuracy_score(Y_test,Y_pred))
     # 0.9023077490230775
 
+def naive_bayes():
+    model = GaussianNB()
+    model.fit(X_train,Y_train)
+    Y_pred = model.predict(X_test)
+    print("Naive bayes accuracy: ", metrics.accuracy_score(Y_test, Y_pred))
+    # 0.8607977586079776
 
-
-random_forest()
+# decision_tree()
+# random_forest()
+# naive_bayes()
+# kmeans()
