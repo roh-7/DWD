@@ -27,11 +27,27 @@ cleanup_jobs = {"job": {"blue-collar": 1, "management": 2, "technician": 3, "adm
 processed_encoding.replace(cleanup_jobs, inplace=True)
 # print(processed_jobs.head())
 
-print(processed_encoding['marital'].value_counts())
+# print(processed_encoding['marital'].value_counts())
 
 cleanup_marital = {"marital": {"married": 1, "single": 2, "divorced": 3}}
 processed_encoding.replace(cleanup_marital, inplace=True)
-print(processed_encoding.head())
+# print(processed_encoding.head())
+
+# print(processed_encoding["education"].value_counts())
+cleanup_education = {"education": {"primary": 1, "secondary": 2, "tertiary":3 ,"unknown": 4}}
+processed_encoding.replace(cleanup_education,inplace=True)
+# print(processed_encoding)
+
+#for default, housing, loan
+print(processed_encoding["loan"].value_counts())
+cleanup_boolean = {"default": {"yes": 1, "no": 0},
+					"housing": {"yes": 1, "no": 0},
+					"loan": {"yes": 1, "no": 0}
+                    }
+processed_encoding.replace(cleanup_boolean,inplace=True)
+# print(processed_encoding.values[1:100, 3:9]
+
+
 
 
 
