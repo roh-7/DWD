@@ -6,6 +6,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
 
 processed_data = pd.read_csv('/Users/rohitramaswamy/Desktop/BSE/Sem 1/DealingWithData/git/DWD/Data/bank/bank-full.csv', sep=';')
 
@@ -88,7 +90,33 @@ def naive_bayes():
     print("Naive bayes accuracy: ", metrics.accuracy_score(Y_test, Y_pred))
     # 0.8607977586079776
 
+def kmeans():
+    # kmeans5 = KMeans(n_clusters=5)
+    # y_kmeans5 = kmeans5.fit_predict(X_test)
+    # print(y_kmeans5)
+    # print(kmeans5.cluster_centers_)
+    # Error = []
+    # for i in range(1, 11):
+    #     kmeans = KMeans(n_clusters=i).fit(X_test)
+    #     kmeans.fit(X_test)
+    #     Error.append(kmeans.inertia_)
+    # plt.plot(range(1, 11), Error)
+    # plt.title('Elbow method')
+    # plt.xlabel('No of clusters')
+    # plt.ylabel('Error')
+    # plt.show()
+    print("-----------------------------")
+    kmeans3 = KMeans(n_clusters=3)
+    y_kmeans3 = kmeans3.fit_predict(X_test)
+    print(y_kmeans3)
+    print(kmeans3.cluster_centers_)
+    plt.scatter(X_test[:,0], X_test[:,1],c=y_kmeans3,cmap='rainbow')
+
+
+
+
+
 # decision_tree()
 # random_forest()
 # naive_bayes()
-# kmeans()
+kmeans()
