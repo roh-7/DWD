@@ -1,11 +1,13 @@
 import csv
 import pandas as pd
 import numpy as np
-from gapminder import gapminder
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
+from sklearn import metrics
 from sklearn.metrics import accuracy_score
 from sklearn import tree
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
 
 processed_data = pd.read_csv(
 	'/Users/rohitramaswamy/Desktop/BSE/Sem 1/DealingWithData/git/DWD/Data/bank/bank-full.csv', sep=';')
@@ -59,7 +61,7 @@ processed_encoding.replace(cleanup_month, inplace=True)
 # print(processed_encoding["poutcome"].value_counts())
 cleanup_poutcome = {"poutcome": {"success":1, "failure":2, "other":3, "unknown":4}}
 processed_encoding.replace(cleanup_poutcome, inplace=True)
-print(processed_encoding[['poutcome']])
+# print(processed_encoding[['poutcome']])
 
 
 
@@ -75,10 +77,21 @@ print(processed_encoding[['poutcome']])
 #                  'cons.conf.idx', 'euribor3m', 'nr.employed']
 # feature_col_y = ['y']
 
-# X = processed_data.iloc[0:, 3:15]
-# Y = processed_data.iloc[0:, -1]
-#
-# X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=1)
-#
-# cal_entropy = DecisionTreeClassifier(criterion="entropy", random_state=1, max_depth=3, min_samples_leaf=5)
-# cal_entropy.fit(X_train, Y_train)
+X = processed_data.iloc[1:, 0:15]
+Y = processed_data.iloc[1:, -1]
+
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=1)
+
+cal_entropy = DecisionTreeClassifier(criterion="entropy", random_state=1, max_depth=3, min_samples_leaf=5)
+cal_entropy.fit(X_train, Y_train)
+
+Y_pred = cal_entropy.predict(X_test)
+
+# results = confusion_matrix(X_test, Y)
+# print('Confusion Matrix :')
+# print(results)
+print('Accuracy Score :' ,metrics.accuracy_score(Y_test, Y_pred))
+# print('Report : ')
+# print(classification_report(Y_train, X_train))
+
+
