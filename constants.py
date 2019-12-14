@@ -1,1 +1,0 @@
-path = '<Users/rohitramaswamy/Desktop/BSE/Sem 1/DealingWithData/git/DWD/Data/bank/bank-full.csv>'

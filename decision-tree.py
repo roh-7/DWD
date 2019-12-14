@@ -1,6 +1,5 @@
-import csv
 import pandas as pd
-import numpy as np
+import os
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
@@ -9,9 +8,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
-from constants import path
-
-csv_path = path
+csv_path = os.getcwd()+'/Data/bank/bank-full.csv'
 processed_data = pd.read_csv(csv_path, sep=';')
 
 processed_encoding = processed_data
