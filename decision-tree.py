@@ -9,7 +9,10 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
-processed_data = pd.read_csv('/Users/rohitramaswamy/Desktop/BSE/Sem 1/DealingWithData/git/DWD/Data/bank/bank-full.csv', sep=';')
+from constants import path
+
+csv_path = path
+processed_data = pd.read_csv(csv_path, sep=';')
 
 processed_encoding = processed_data
 
