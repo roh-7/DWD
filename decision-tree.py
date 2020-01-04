@@ -8,26 +8,29 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
-csv_path = os.getcwd()+'/Data/bank/bank-full.csv'
+csv_path = csv_path = os.getcwd()+'/Data/bank/bank-full.csv'
 processed_data = pd.read_csv(csv_path, sep=';')
 
 processed_encoding = processed_data
 
 # prints count of unique values
 # print(processed_data["job"].value_counts())
-cleanup_jobs = {"job": {"blue-collar": 1, "management": 2, "technician": 3, "admin.": 4, "services": 5, "retired": 6,
-                        "self-employed": 7, "entrepreneur": 8, "unemployed": 9, "housemaid": 10, "student": 11,
-                        "unknown": 12}}
-processed_encoding.replace(cleanup_jobs, inplace=True)
+#cleanup_jobs = {"job": {"blue-collar": 1, "management": 2, "technician": 3, "admin.": 4, "services": 5, "retired": 6,
+#                        "self-employed": 7, "entrepreneur": 8, "unemployed": 9, "housemaid": 10, "student": 11,
+#                        "unknown": 12}}
+#processed_encoding.replace(cleanup_jobs, inplace=True)
 # print(processed_jobs.head())
 
 # print(processed_encoding['marital'].value_counts())
-cleanup_marital = {"marital": {"married": 1, "single": 2, "divorced": 3}}
-processed_encoding.replace(cleanup_marital, inplace=True)
+#cleanup_marital = {"marital": {"married": 1, "single": 2, "divorced": 3}}
+#processed_encoding.replace(cleanup_marital, inplace=True)
 # print(processed_encoding.head())
 
+processed_encoding['job']=pd.factorize(pro_data.job)[0]
+processed_encoding['marital']=pd.factorize(pro_data.marital)[0]
+
 # print(processed_encoding["education"].value_counts())
-cleanup_education = {"education": {"primary": 1, "secondary": 2, "tertiary": 3, "unknown": 4}}
+cleanup_education = {"education": {"primary": 1, "secondary": 2, "tertiary": 3, "unknown": 0}}
 processed_encoding.replace(cleanup_education, inplace=True)
 # print(processed_encoding)
 
@@ -42,15 +45,18 @@ processed_encoding.replace(cleanup_boolean, inplace=True)
 # print(processed_encoding.values[1:100, 3:9]
 
 # print(processed_encoding["contact"].value_counts())
-cleanup_contact = {"contact": {"cellular": 1, "telephone": 2, "unknown": 3}}
-processed_encoding.replace(cleanup_contact, inplace=True)
+#cleanup_contact = {"contact": {"cellular": 1, "telephone": 2, "unknown": 3}}
+#processed_encoding.replace(cleanup_contact, inplace=True)
 # print(processed_encoding[['age']])
 
 # print(processed_encoding["month"].value_counts())
-cleanup_month = {"month": {"jan": 1, "feb":2, "mar":3, "apr":4, "may":5, "jun": 6, "jul":7, "aug":8, "sep":9,
-                           "oct":10, "nov":11, "dec":12}}
-processed_encoding.replace(cleanup_month, inplace=True)
+#cleanup_month = {"month": {"jan": 1, "feb":2, "mar":3, "apr":4, "may":5, "jun": 6, "jul":7, "aug":8, "sep":9,
+#                           "oct":10, "nov":11, "dec":12}}
+#processed_encoding.replace(cleanup_month, inplace=True)
 # print(processed_encoding[['month']])
+
+pro_data['contact']=pd.factorize(pro_data.contact)[0]
+pro_data['month']=pd.factorize(pro_data.month)[0]
 
 # print(processed_encoding["poutcome"].value_counts())
 cleanup_poutcome = {"poutcome": {"success":1, "failure":2, "other":3, "unknown":4}}
@@ -60,6 +66,9 @@ processed_encoding.replace(cleanup_poutcome, inplace=True)
 # print("data length :: ", len(processed_data))
 # print("no null data :: ", processed_data.isnull().sum())
 # print(processed_data.head())
+
+#processed data frame to csv file
+processed_encoding.to_csv('processed_data.csv')
 
 # processed_data.info()
 
@@ -91,7 +100,7 @@ def naive_bayes():
     # 0.8607977586079776
 
 def kmeans():
-    # kmeans5 = KMeans(n_clusters=5)
+    #kmeans5 = KMeans(n_clusters=5)
     # y_kmeans5 = kmeans5.fit_predict(X_test)
     # print(y_kmeans5)
     # print(kmeans5.cluster_centers_)
@@ -116,7 +125,7 @@ def kmeans():
 
 
 
-# decision_tree()
-# random_forest()
-# naive_bayes()
-kmeans()
+ decision_tree()
+ random_forest()
+ naive_bayes()
+ kmeans()
