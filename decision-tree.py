@@ -8,7 +8,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
-csv_path = csv_path = os.getcwd()+'/Data/bank/bank-full.csv'
+csv_path = os.getcwd()+'/Data/bank/bank-full.csv'
 processed_data = pd.read_csv(csv_path, sep=';')
 
 processed_encoding = processed_data
@@ -26,8 +26,8 @@ processed_encoding = processed_data
 #processed_encoding.replace(cleanup_marital, inplace=True)
 # print(processed_encoding.head())
 
-processed_encoding['job']=pd.factorize(pro_data.job)[0]
-processed_encoding['marital']=pd.factorize(pro_data.marital)[0]
+processed_encoding['job']=pd.factorize(processed_data.job)[0]
+processed_encoding['marital']=pd.factorize(processed_data.marital)[0]
 
 # print(processed_encoding["education"].value_counts())
 cleanup_education = {"education": {"primary": 1, "secondary": 2, "tertiary": 3, "unknown": 0}}
@@ -55,8 +55,8 @@ processed_encoding.replace(cleanup_boolean, inplace=True)
 #processed_encoding.replace(cleanup_month, inplace=True)
 # print(processed_encoding[['month']])
 
-pro_data['contact']=pd.factorize(pro_data.contact)[0]
-pro_data['month']=pd.factorize(pro_data.month)[0]
+processed_data['contact']=pd.factorize(processed_data.contact)[0]
+processed_data['month']=pd.factorize(processed_data.month)[0]
 
 # print(processed_encoding["poutcome"].value_counts())
 cleanup_poutcome = {"poutcome": {"success":1, "failure":2, "other":3, "unknown":4}}
@@ -77,55 +77,59 @@ Y = processed_encoding.iloc[1:, -1]
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=1)
 
 def decision_tree():
-    cal_entropy = DecisionTreeClassifier(criterion="entropy", random_state=1, max_depth=3, min_samples_leaf=5)
-    cal_entropy.fit(X_train, Y_train)
-    Y_pred = cal_entropy.predict(X_test)
-    print('Decision tree accuracy: ', metrics.accuracy_score(Y_test, Y_pred))
-    #  PRoc data: 0.8897736488977365
+	cal_entropy = DecisionTreeClassifier(criterion="entropy", random_state=1, max_depth=3, min_samples_leaf=5)
+	cal_entropy.fit(X_train, Y_train)
+	Y_pred = cal_entropy.predict(X_test)
+	print('Decision tree accuracy: ', metrics.accuracy_score(Y_test, Y_pred))
+	#  PRoc data: 0.8897736488977365
 
 def random_forest():
-    # Create the model with 100 trees
-    random_forest_model = RandomForestClassifier(n_estimators=100, bootstrap=True, max_features='sqrt')
-    # Fit on training data
-    random_forest_model.fit(X_train, Y_train)
-    Y_pred = random_forest_model.predict(X_test)
-    print("Random forest accuracy: ",metrics.accuracy_score(Y_test,Y_pred))
-    # 0.9023077490230775
+	# Create the model with 100 trees
+	random_forest_model = RandomForestClassifier(n_estimators=100, bootstrap=True, max_features='sqrt')
+	# Fit on training data
+	random_forest_model.fit(X_train, Y_train)
+	Y_pred = random_forest_model.predict(X_test)
+	print("Random forest accuracy: ",metrics.accuracy_score(Y_test,Y_pred))
+	# 0.9023077490230775
 
 def naive_bayes():
-    model = GaussianNB()
-    model.fit(X_train,Y_train)
-    Y_pred = model.predict(X_test)
-    print("Naive bayes accuracy: ", metrics.accuracy_score(Y_test, Y_pred))
-    # 0.8607977586079776
+	model = GaussianNB()
+	model.fit(X_train,Y_train)
+	Y_pred = model.predict(X_test)
+	print("Naive bayes accuracy: ", metrics.accuracy_score(Y_test, Y_pred))
+	# 0.8607977586079776
 
 def kmeans():
-    #kmeans5 = KMeans(n_clusters=5)
-    # y_kmeans5 = kmeans5.fit_predict(X_test)
-    # print(y_kmeans5)
-    # print(kmeans5.cluster_centers_)
-    # Error = []
-    # for i in range(1, 11):
-    #     kmeans = KMeans(n_clusters=i).fit(X_test)
-    #     kmeans.fit(X_test)
-    #     Error.append(kmeans.inertia_)
-    # plt.plot(range(1, 11), Error)
-    # plt.title('Elbow method')
-    # plt.xlabel('No of clusters')
-    # plt.ylabel('Error')
-    # plt.show()
-    print("-----------------------------")
-    kmeans3 = KMeans(n_clusters=3)
-    y_kmeans3 = kmeans3.fit_predict(X_test)
-    print(y_kmeans3)
-    print(kmeans3.cluster_centers_)
-    plt.scatter(X_test[:,0], X_test[:,1],c=y_kmeans3,cmap='rainbow')
+	# Elbow method for number of clusters
+	Error = []
+	for i in range(1, 11):
+		kmeans = KMeans(n_clusters=i).fit(X_test)
+		kmeans.fit(X_test)
+		Error.append(kmeans.inertia_)
+	plt.plot(range(1, 11), Error)
+	plt.title('Elbow method')
+	plt.xlabel('No of clusters')
+	plt.ylabel('Error')
+	plt.show()
+	print("-----------------------------")
+	# kmeans implementation with 3 clusters
+	kmeans = KMeans(n_clusters=3, init='k-means++', random_state=42)
+	y_kmeans = kmeans.fit_predict(X_test)
+	# print(y_kmeans3)
+	# print(kmeans3.cluster_centers_)
+	# plt.scatter(X.iloc[:, 0], X.iloc[:, 1], s=100, c='red', label='Cluster 1')
+	# plt.scatter(X.iloc[:, 0], X.iloc[:, 1], s=100, c='blue', label='Cluster 2')
+	# plt.scatter(X.iloc[:, 0], X.iloc[:, 1], s=100, c='green', label='Cluster 3')
+	# visualising kmeans
+	plt.scatter(X_test.iloc[:,0], X_test.iloc[:,1],c=y_kmeans,cmap='rainbow')
+	plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=300, c='yellow', label='Centroids')
+	plt.title("Clusters")
+	plt.xlabel("X-label")
+	plt.ylabel("y-label")
+	plt.legend()
+	plt.show()
 
-
-
-
-
- decision_tree()
- random_forest()
- naive_bayes()
- kmeans()
+decision_tree()
+random_forest()
+naive_bayes()
+kmeans()
