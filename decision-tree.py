@@ -7,6 +7,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
+from sklearn import tree
+from sklearn.metrics import confusion_matrix
+from sklearn.tree import plot_tree
 
 csv_path = os.getcwd()+'/Data/bank/bank-full.csv'
 processed_data = pd.read_csv(csv_path, sep=';')
@@ -76,11 +79,17 @@ X = processed_encoding.iloc[1:, 0:15]
 Y = processed_encoding.iloc[1:, -1]
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.3, random_state=1)
 
+
 def decision_tree():
 	cal_entropy = DecisionTreeClassifier(criterion="entropy", random_state=1, max_depth=3, min_samples_leaf=5)
 	cal_entropy.fit(X_train, Y_train)
 	Y_pred = cal_entropy.predict(X_test)
 	print('Decision tree accuracy: ', metrics.accuracy_score(Y_test, Y_pred))
+	#tree.plot_tree(cal_entropy.fit(processed_encoding.X_train, processed_encoding.Y_train))
+	print("Confusion matrix for decision tree:")
+	print(confusion_matrix(Y_test,Y_pred))
+	tree.plot_tree(cal_entropy)
+	plt.show()
 	#  PRoc data: 0.8897736488977365
 
 def random_forest():
@@ -90,6 +99,8 @@ def random_forest():
 	random_forest_model.fit(X_train, Y_train)
 	Y_pred = random_forest_model.predict(X_test)
 	print("Random forest accuracy: ",metrics.accuracy_score(Y_test,Y_pred))
+	print("Confusion matrix for random forest:")
+	print(confusion_matrix(Y_test,Y_pred))
 	# 0.9023077490230775
 
 def naive_bayes():
@@ -97,6 +108,8 @@ def naive_bayes():
 	model.fit(X_train,Y_train)
 	Y_pred = model.predict(X_test)
 	print("Naive bayes accuracy: ", metrics.accuracy_score(Y_test, Y_pred))
+	print("Confusion matrix for naive bayes:")
+	print(confusion_matrix(Y_test,Y_pred))
 	# 0.8607977586079776
 
 def kmeans():
@@ -132,4 +145,5 @@ def kmeans():
 decision_tree()
 random_forest()
 naive_bayes()
-kmeans()
+# kmeans()
+
