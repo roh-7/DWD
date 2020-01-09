@@ -145,5 +145,5 @@ def kmeans():
 random_forest()
 naive_bayes()
 decision_tree()
-# kmeans()
+kmeans()
 
