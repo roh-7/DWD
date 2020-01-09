@@ -142,8 +142,8 @@ def kmeans():
 	plt.legend()
 	plt.show()
 
-decision_tree()
 random_forest()
 naive_bayes()
+decision_tree()
 # kmeans()
 
